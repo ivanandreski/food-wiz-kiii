@@ -16,7 +16,9 @@ services:
   server:
     container_name: server
     image: food-wiz_backend
-    build: ./backend
+    build:
+      context: ./backend
+      dockerfile: DOckerfile
     volumes:
       - ./app:/usr/src/app/app
       - ./migrations:/usr/src/app/migrations
@@ -33,7 +35,9 @@ services:
   frontend:
     container_name: frontend
     image: food-wiz_client
-    build: ./client
+    build:
+      context: ./client
+      dockerfile: DOckerfile
     command: ["npm", "start"]
     ports:
       - 3100:3000

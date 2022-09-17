@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: food-wiz-kiii
+  labels:
+    app: food-wiz-kiii
+spec:
+  containers:
+    - name: backend
+      image: anzurakizz/food-wiz-kiii-backend
+      ports:
+        - containerPort: 5100
+    - name: frontend
+      image: anzurakizz/food-wiz-kiii-client
+      ports:
+        - containerPort: 3100
+    - name: db
+      image: postgres
+      ports:
+        - containerPort: 5432
+    - env:
+        - name: DB_HOST
+          value: db
+        - name: DB_NAME
+          value: postgres
+        - name: DB_PASSWORD
+          value: postgres
+        - name: DB_USER
+          value: postgres
+	      - name: POSTGRES_DB
+          value: postgres
+        - name: POSTGRES_PASSWORD
+          value: postgres
+        - name: POSTGRES_USER
+          value: postgres
+      volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: postgres-data
+        - mountPath: /usr/src/app/app
+          name: server-hostpath0
+        - mountPath: /usr/src/app/migrations
+          name: server-hostpath1
+  volumes:
+        - hostPath:
+            path: D:\GitHub\food-wiz-kiii\app
+          name: server-hostpath0
+        - hostPath:
+            path: D:\GitHub\food-wiz-kiii\migrations
+          name: server-hostpath1
+        - hostPath:
+            path: D:\GitHub\food-wiz-kiii
+          name: postgres-data

@@ -9,7 +9,7 @@ metadata:
     io.kompose.service: server
   name: server
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
     - name: "5100"
       port: 5100

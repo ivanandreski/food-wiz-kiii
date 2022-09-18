@@ -7,6 +7,9 @@ on:
   pull_request:
     branches: ["master"]
 
+concurrency:
+  group: build-and-release
+
 jobs:
   release:
     runs-on: ubuntu-latest

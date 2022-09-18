@@ -27,7 +27,7 @@ spec:
       containers:
         - env:
             - name: DB_HOST
-              value: 10.102.149.101
+              value: db
             - name: DB_NAME
               value: postgres
             - name: DB_PASSWORD

@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: anzurakizz/food-wiz-kiii-backend
+  repository: anzurakizz/food-wiz-kiii-client
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
@@ -24,4 +24,4 @@ serviceAccount:
 
 service:
   type: LoadBalancer
-  port: 5100
+  port: 3100

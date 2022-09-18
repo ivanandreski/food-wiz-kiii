@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react'
 
-import DatasetService from "../../repository/DatasetService";
+import DatasetService from '../../repository/DatasetService'
 
 const DatasetsFilter = ({
   documentId,
@@ -8,48 +8,48 @@ const DatasetsFilter = ({
   setDatasetString,
   datasets,
   checkedDatasets,
-  setCheckedDatasets,
+  setCheckedDatasets
 }) => {
   const handleChange = (e) => {
-    const key = e.target.id;
-    const value = e.target.checked;
+    const key = e.target.id
+    const value = e.target.checked
 
-    let temp = { ...checkedDatasets };
-    temp[key] = value;
+    const temp = { ...checkedDatasets }
+    temp[key] = value
 
-    let str = "";
+    let str = ''
     Object.keys(temp).forEach((key) => {
       if (temp[key]) {
-        str += key + ",";
+        str += key + ','
       }
-    });
-    setDatasetString(str);
-    setCheckedDatasets(temp);
-  };
+    })
+    setDatasetString(str)
+    setCheckedDatasets(temp)
+  }
 
   const renderSelects = () => {
     return datasets.map((dataset, i) => (
-      <span key={i} className="mr-2">
+      <span key={i} className='mr-2'>
         <input
           id={dataset.id}
-          className="mr-1"
-          type="checkbox"
-          name="datasets"
+          className='mr-1'
+          type='checkbox'
+          name='datasets'
           //   checked={checkedDatasets[dataset.id]}
-          defaultChecked={true}
+          defaultChecked
           onChange={handleChange}
         />
-        <span className="text-capitalize"> {dataset.title}</span>
+        <span className='text-capitalize'> {dataset.title}</span>
       </span>
-    ));
-  };
+    ))
+  }
 
   return (
-    <div className="col-12">
+    <div className='col-12'>
       Active Annotation Datasets: {renderSelects()}
       <hr />
     </div>
-  );
-};
+  )
+}
 
-export default DatasetsFilter;
+export default DatasetsFilter

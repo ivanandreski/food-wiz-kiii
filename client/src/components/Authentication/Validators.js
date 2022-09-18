@@ -1,38 +1,42 @@
-import validator from "validator";
+import validator from 'validator'
 
 const Validators = {
   signUpValid: (email, password, confirmPassword, fullName) => {
-    if (!validator.isEmail(email))
+    if (!validator.isEmail(email)) {
       return {
         valid: false,
-        message: "Email invalid",
-      };
+        message: 'Email invalid'
+      }
+    }
   },
 
   emailValid: (email) => {
-    if (!validator.isEmail(email))
+    if (!validator.isEmail(email)) {
       return {
         valid: false,
-        message: "Email invalid",
-      };
+        message: 'Email invalid'
+      }
+    }
 
-    return { valid: true };
+    return { valid: true }
   },
 
   passwordValid: (password, confirmPassword) => {
-    if (password === "" || confirmPassword === "")
+    if (password === '' || confirmPassword === '') {
       return {
         valid: false,
-        message: "Password cannot be empty",
-      };
-    if (password !== confirmPassword)
+        message: 'Password cannot be empty'
+      }
+    }
+    if (password !== confirmPassword) {
       return {
         valid: false,
-        message: "Passwords do not match!",
-      };
+        message: 'Passwords do not match!'
+      }
+    }
 
-    return { valid: true };
-  },
-};
+    return { valid: true }
+  }
+}
 
-export default Validators;
+export default Validators

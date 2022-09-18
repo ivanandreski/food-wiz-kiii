@@ -1,53 +1,53 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react'
 
-import DatasetService from "../../repository/DatasetService";
+import DatasetService from '../../repository/DatasetService'
 
 const SourceFilter = ({
   setSourceString,
   sources,
   checkedSources,
-  setCheckedSources,
+  setCheckedSources
 }) => {
   const handleChange = (e) => {
-    const key = e.target.id;
-    const value = e.target.checked;
+    const key = e.target.id
+    const value = e.target.checked
 
-    let temp = { ...checkedSources };
-    temp[key] = value;
+    const temp = { ...checkedSources }
+    temp[key] = value
 
-    let str = "";
+    let str = ''
     Object.keys(temp).forEach((key) => {
       if (temp[key]) {
-        str += key + ",";
+        str += key + ','
       }
-    });
-    setSourceString(str);
-    setCheckedSources(temp);
-  };
+    })
+    setSourceString(str)
+    setCheckedSources(temp)
+  }
 
   const renderSelects = () => {
     return sources.map((source, i) => (
-      <span key={i} className="mr-2">
+      <span key={i} className='mr-2'>
         <input
           id={source}
-          className="mr-1"
-          type="checkbox"
-          name="datasets"
+          className='mr-1'
+          type='checkbox'
+          name='datasets'
           //   checked={checkedDatasets[dataset.id]}
-          defaultChecked={true}
+          defaultChecked
           onChange={handleChange}
         />
-        <span className="text-capitalize"> {source}</span>
+        <span className='text-capitalize'> {source}</span>
       </span>
-    ));
-  };
+    ))
+  }
 
   return (
-    <div className="col-12">
+    <div className='col-12'>
       Active Annotation Sources: {renderSelects()}
       <hr />
     </div>
-  );
-};
+  )
+}
 
-export default SourceFilter;
+export default SourceFilter

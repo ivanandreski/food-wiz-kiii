@@ -1,13 +1,13 @@
-import axios from "../custom-axios/axios";
+import axios from '../custom-axios/axios'
 
 const DatasetService = {
   fetchDatasets: () => {
-    return axios.get("dataset/");
+    return axios.get('dataset/')
   },
 
   fetchByCorpusId: (documentId) => {
-    return axios.get(`corpus/${documentId}/datasets`);
-  },
-};
+    return axios.get(`corpus/${documentId}/datasets`)
+  }
+}
 
-export default DatasetService;
+export default DatasetService

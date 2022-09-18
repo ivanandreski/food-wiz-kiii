@@ -1,37 +1,37 @@
-import React from "react";
-import { useParams } from "react-router-dom";
+import React from 'react'
+import { useParams } from 'react-router-dom'
 
 const TokenAnnotation = (props) => {
-  const documentId = useParams().id;
-  const token = props.token;
+  const documentId = useParams().id
+  const token = props.token
 
-  if (!token) return <></>;
+  if (!token) return <></>
 
   const tags = token.tags?.map((it, ix) => (
-    <span key={ix} className="badge badge-secondary" title={it.dataset}>
-      [{it.link}] {it.token}{" "}
+    <span key={ix} className='badge badge-secondary' title={it.dataset}>
+      [{it.link}] {it.token}{' '}
       <i
-        className="fa fa-fw fa-remove clickable"
+        className='fa fa-fw fa-remove clickable'
         onClick={() => onTagRemove(it.dataset, it.link)}
       />
     </span>
-  ));
+  ))
 
   return (
     <span
-      className="text-body"
+      className='text-body'
       style={{
-        clear: "both",
-        float: "left",
-        width: "300px",
-        minHeight: "150px",
-        position: "absolute",
-        padding: "3px",
-        border: "1px solid #eee",
-        marginTop: "5px",
-        backgroundColor: "white",
-        textAlign: "left",
-        color: "black",
+        clear: 'both',
+        float: 'left',
+        width: '300px',
+        minHeight: '150px',
+        position: 'absolute',
+        padding: '3px',
+        border: '1px solid #eee',
+        marginTop: '5px',
+        backgroundColor: 'white',
+        textAlign: 'left',
+        color: 'black'
       }}
     >
       <b>{token.text}:</b>
@@ -41,22 +41,22 @@ const TokenAnnotation = (props) => {
         the tags. Ex:
       </p>
       <div>
-        Hansard:{" "}
+        Hansard:{' '}
         <select>
           <option>A.01.h FOOD</option>
           <option>A.01.g Beverage</option>
         </select>
       </div>
     </span>
-  );
+  )
 
-  function onTagSelect(datasetId, tagLink) {
-    console.log(datasetId, tagLink);
+  function onTagSelect (datasetId, tagLink) {
+    console.log(datasetId, tagLink)
   }
 
-  function onTagRemove(datasetId, tagLink) {
+  function onTagRemove (datasetId, tagLink) {
     // console.log(datasetId, tagLink);
   }
-};
+}
 
-export default TokenAnnotation;
+export default TokenAnnotation

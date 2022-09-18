@@ -1,31 +1,31 @@
-import axios from "../custom-axios/axios";
+import axios from '../custom-axios/axios'
 
 const AuthenticationService = {
   signup: (email, password, fullName) => {
-    let formData = new FormData();
-    formData.append("email", email);
-    formData.append("password", password);
-    formData.append("fullName", fullName);
+    const formData = new FormData()
+    formData.append('email', email)
+    formData.append('password', password)
+    formData.append('fullName', fullName)
 
-    return axios.post("users/signup", formData);
+    return axios.post('users/signup', formData)
   },
 
   login: (email, password) => {
-    let formData = new FormData();
-    formData.append("email", email);
-    formData.append("password", password);
+    const formData = new FormData()
+    formData.append('email', email)
+    formData.append('password', password)
 
-    return axios.post("users/login", formData);
+    return axios.post('users/login', formData)
   },
 
   getUserEmail: () => {
-    return axios.get("users/getEmail");
+    return axios.get('users/getEmail')
   },
 
   setAuthToken: (token) => {
-    if (token !== null) axios.defaults.headers.common["x-access-token"] = token;
-    else delete axios.defaults.headers.common["x-access-token"];
-  },
-};
+    if (token !== null) axios.defaults.headers.common['x-access-token'] = token
+    else delete axios.defaults.headers.common['x-access-token']
+  }
+}
 
-export default AuthenticationService;
+export default AuthenticationService

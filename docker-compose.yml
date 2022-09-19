@@ -18,7 +18,7 @@ services:
     image: food-wiz_backend
     build:
       context: ./backend
-      dockerfile: DOckerfile
+      dockerfile: Dockerfile
     volumes:
       - ./app:/usr/src/app/app
       - ./migrations:/usr/src/app/migrations
@@ -37,7 +37,7 @@ services:
     image: food-wiz_client
     build:
       context: ./client
-      dockerfile: DOckerfile
+      dockerfile: Dockerfile
     command: ["npm", "start"]
     ports:
       - 3100:3000

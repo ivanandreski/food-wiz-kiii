@@ -31,7 +31,8 @@ spec:
             - name: CHOKIDAR_USEPOLLING
               value: "true"
             - name: REACT_APP_BACKEND_URL
-              value: http://127.0.0.1:57521
+              # value: http://127.0.0.1:57521
+              value:
           image: anzurakizz/food-wiz-kiii-client
           name: frontend
           ports:

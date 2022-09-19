@@ -9,7 +9,7 @@ metadata:
     io.kompose.service: frontend
   name: frontend
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
     - name: "3100"
       port: 3100

@@ -3,6 +3,16 @@ entries:
   frontend:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2022-09-21T12:13:39.442554416Z"
+    description: A Helm chart react frontend
+    digest: 44943035613a2a02168a90ec6151c1d4ff3862595f200e8457e9480958c0ceeb
+    name: frontend
+    type: application
+    urls:
+    - https://github.com/ivanandreski/food-wiz-kiii/releases/download/frontend-0.3.11/frontend-0.3.11.tgz
+    version: 0.3.11
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2022-09-20T18:16:27.318405033Z"
     description: A Helm chart react frontend
     digest: f221e9b4378c866a5d9270807cb3030c2176e122163d82e3915071481343f9bd
@@ -212,4 +222,4 @@ entries:
     urls:
     - https://github.com/ivanandreski/food-wiz-kiii/releases/download/server-0.1.2/server-0.1.2.tgz
     version: 0.1.2
-generated: "2022-09-20T18:16:27.318576136Z"
+generated: "2022-09-21T12:13:39.443190823Z"

@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import { HashRouter, Redirect, Route, Switch } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 
 import Header from "../Header/header";
 import Home from "../Home/Home";
 import Corpus from "../Corpus/Corpus";
 import Upload from "../Upload/Upload";
 import Datasets from "../Datasets/Datasets";
-import CorpusContainer from "../Corpus/CorpusContainer";
+import CorpusContainer from "../CorpusContainer/CorpusContainer";
 import Document from "../Document/Document";
 
 class App extends Component {
@@ -14,27 +14,15 @@ class App extends Component {
     const routing = (
       <HashRouter>
         <Header />
-        <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route exact path="/corpus">
-            <Corpus />
-          </Route>
-          <Route path="/upload">
-            <Upload />
-          </Route>
-          <Route path="/datasets">
-            <Datasets />
-          </Route>
-          <Route path="/corpus/:id">
-            <CorpusContainer />
-          </Route>
-          <Route path="/document/:id">
-            <Document />
-          </Route>
-          <Redirect to={"/"} />
-        </Switch>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route exact path="/corpus/:id" element={<CorpusContainer />} />
+          <Route path="/corpus" element={<Corpus />} />
+          <Route path="/upload" element={<Upload />} />
+          <Route path="/datasets" element={<Datasets />} />
+          <Route path="/document/:id" element={<Document />} />
+          <Route path="*" element={<Home />} />
+        </Routes>
       </HashRouter>
     );
 

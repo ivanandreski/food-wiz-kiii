@@ -7,7 +7,7 @@ const instance = axios.create({
   // baseURL: 'http://wp.finki.ukim.mk/fbw/',
   baseURL: REACT_APP_BACKEND_URL,
   headers: {
-    "Access-Control-Allow-Origin": "*",
+    // "Access-Control-Allow-Origin": "*",
   },
 });
 

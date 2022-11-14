@@ -1,15 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Auth from "../Auth/Auth";
 import Authentication from "../Authentication/Authentication";
 
 const Header = (props) => {
   return (
     <header>
       <nav className="navbar navbar-expand-md navbar-dark navbar-fixed bg-dark">
-        <a className="navbar-brand" href="#">
+        <Link to="/" className="navbar-brand">
           FoodViz
-        </a>
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -28,39 +27,14 @@ const Header = (props) => {
                 Corpus
               </Link>
             </li>
-            <li className="nav-item">
-              <Link className="nav-link active" to={"/upload"}>
-                Upload
-              </Link>
-            </li>
             <li className="nav-item active">
               <Link className="nav-link" to={"/datasets"}>
                 Datasets
               </Link>
             </li>
-            <li className="nav-item active">
-              <Link className="nav-link" to={"/predict"}>
-                Free text FoodNER annotation
-              </Link>
-            </li>
-            <li className="nav-item active">
-              <Link className="nav-link" to={"/result-resources"}>
-                FoodNER resources
-              </Link>
-            </li>
-            <li className="nav-item active">
-              <Link className="nav-link" to={"/food-onto-map"}>
-                Food Onto Map Index
-              </Link>
-            </li>
             <li className="nav-item">
-              <Link className="nav-link" to={"/foo-dis"}>
-                Food-Disease annotations
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to={"/cafeteria"}>
-                Cafeteria annotations
+              <Link className="nav-link active" to={"/upload"}>
+                Upload
               </Link>
             </li>
           </ul>

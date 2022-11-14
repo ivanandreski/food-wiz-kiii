@@ -23,7 +23,7 @@ const BasicPopover = ({
   };
 
   function getClass() {
-    return token.tags.length > 0 ? " badge badge-success" : "";
+    return token.tags.length > 0 ? " badge text-bg-success" : "";
   }
 
   const open = Boolean(anchorEl);
@@ -110,8 +110,8 @@ const BasicPopover = ({
                   key={ix}
                   className={
                     it.removed
-                      ? "badge m-1 badge-danger"
-                      : "badge m-1 badge-secondary"
+                      ? "badge m-1 text-bg-danger"
+                      : "badge m-1 text-bg-secondary"
                   }
                   title={`Dataset: ${it.dataset}, Source: ${it.source}, ${
                     it.removed ? "Removed by: " + it.removedBy : ""

@@ -8,7 +8,7 @@ const TokenAnnotation = (props) => {
   if (!token) return <></>;
 
   const tags = token.tags?.map((it, ix) => (
-    <span key={ix} className="badge badge-secondary" title={it.dataset}>
+    <span key={ix} className="badge text-bg-secondary" title={it.dataset}>
       [{it.link}] {it.token}{" "}
       <i
         className="fa fa-fw fa-remove clickable"

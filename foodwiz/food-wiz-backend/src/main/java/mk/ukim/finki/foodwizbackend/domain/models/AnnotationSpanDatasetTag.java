@@ -18,6 +18,15 @@ import java.time.LocalDateTime;
 @Table(name = "annotation_span_dataset_tags")
 public class AnnotationSpanDatasetTag {
 
+    public AnnotationSpanDatasetTag(DatasetTag datasetTag, AnnotationSpan annotationSpan, String tagName, String source) {
+        this.datasetTag = datasetTag;
+        this.annotationSpan = annotationSpan;
+        this.tag = tagName;
+        this.source = source;
+        this.removed = false;
+        this.removedBy = "";
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;

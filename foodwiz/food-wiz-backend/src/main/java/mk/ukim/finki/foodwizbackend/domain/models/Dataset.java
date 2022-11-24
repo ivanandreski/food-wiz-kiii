@@ -20,6 +20,12 @@ import java.util.List;
 @Table(name = "datasets")
 public class Dataset {
 
+    public Dataset(String title) {
+        this.title = title;
+        link = "";
+        description = "";
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;

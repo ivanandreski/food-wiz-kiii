@@ -20,6 +20,11 @@ import java.util.Objects;
 @Table(name = "corpus_datasets")
 public class CorpusDataset {
 
+    public CorpusDataset(Corpus corpus, Dataset dataset) {
+        this.corpus = corpus;
+        this.dataset = dataset;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;

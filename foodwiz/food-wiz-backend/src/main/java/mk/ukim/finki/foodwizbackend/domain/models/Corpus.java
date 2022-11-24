@@ -21,6 +21,12 @@ import java.util.Set;
 @Table(name = "corpuses")
 public class Corpus {
 
+    public Corpus(String title) {
+        this.title = title;
+        this.link = "";
+        this.description = "";
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;

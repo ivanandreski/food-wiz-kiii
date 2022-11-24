@@ -20,9 +20,19 @@ import java.util.List;
 @Table(name = "dataset_tags")
 public class DatasetTag {
 
+    public DatasetTag(String tagId, String tagName, Dataset dataset) {
+        this.tagId = tagId;
+        this.tagName = tagName;
+        link = "";
+        description = "";
+        this.dataset = dataset;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
+
+    private String tagId;
 
     private String tagName;
 

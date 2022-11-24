@@ -20,6 +20,13 @@ import java.util.List;
 @Table(name = "annotation_spans")
 public class AnnotationSpan {
 
+    public AnnotationSpan(Integer startChar, Integer endChar, String text, Document document) {
+        this.startChar = startChar;
+        this.endChar = endChar;
+        this.text = text;
+        this.document = document;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;

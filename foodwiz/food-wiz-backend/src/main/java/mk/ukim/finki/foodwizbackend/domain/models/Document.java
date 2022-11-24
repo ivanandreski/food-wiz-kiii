@@ -21,6 +21,14 @@ import java.util.List;
 @Table(name = "documents")
 public class Document {
 
+    public Document(String text, String documentId, String metadata, Corpus corpus, Status status) {
+        this.originalId = documentId;
+        this.text = text;
+        this.metaData = metadata;
+        this.corpus = corpus;
+        this.status = status;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;

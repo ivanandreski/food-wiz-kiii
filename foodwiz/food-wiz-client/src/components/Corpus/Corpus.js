@@ -12,10 +12,13 @@ const Corpus = () => {
     fetchCorpus();
   }, []);
 
-  const fetchCorpus = () => {
-    CorpusService.fetchCorpuses().then((resp) => {
-      setCorpus(resp.data);
-    });
+  const fetchCorpus = async () => {
+    try {
+      const response = await CorpusService.fetchCorpuses();
+      setCorpus(response.data || []);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -32,7 +35,7 @@ const Corpus = () => {
             <div className="col-5">Description</div>
           </div>
           <div className="col table-rows" style={{ padding: 0 }}>
-            {corpus.sort().map((c) => (
+            {corpus.map((c) => (
               <Link key={c.id} to={`/corpus/${c.id}`}>
                 <div className="row table-row">
                   <div className="col-1">{c.id}</div>

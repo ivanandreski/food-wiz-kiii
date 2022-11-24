@@ -2,7 +2,7 @@ import axios from "../custom-axios/axios";
 
 const DatasetService = {
   fetchDatasets: () => {
-    return axios.get("dataset/");
+    return axios.get("dataset");
   },
 
   fetchByCorpusId: (documentId) => {

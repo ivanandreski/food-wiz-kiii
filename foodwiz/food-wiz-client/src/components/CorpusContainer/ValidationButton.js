@@ -2,19 +2,21 @@ import React from "react";
 
 import DocumentService from "../../repository/DocumentService";
 
-function ValidationButton({ fetchDocuments, document }) {
+function ValidationButton({ fetchDocuments, document, changeStatus }) {
   const changeDocumentValidation = (e) => {
     const documentId = e.target.value;
-    DocumentService.validateDocument(documentId)
+    DocumentService.validateDocument(document.id)
       .then((response) => {
-        fetchDocuments();
+        changeStatus(response.data);
+        // fetchDocuments();
+        // document.status = response.data.status;
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
-  return document.status === "validated" ? (
+  return document.status.toLowerCase() === "validated" ? (
     <button
       className="btn btn-success"
       value={document.id}

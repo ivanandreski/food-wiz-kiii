@@ -1,5 +1,7 @@
 package mk.ukim.finki.foodwizbackend.domain.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +20,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "dataset_tags")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class DatasetTag {
 
     public DatasetTag(String tagId, String tagName, Dataset dataset) {
@@ -30,7 +33,7 @@ public class DatasetTag {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
 
     private String tagId;
 
@@ -53,5 +56,6 @@ public class DatasetTag {
     private Dataset dataset;
 
     @OneToMany(mappedBy = "datasetTag", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<AnnotationSpanDatasetTag> annotationSpanDatasetTags = new ArrayList<>();
 }

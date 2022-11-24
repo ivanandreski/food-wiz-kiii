@@ -1,5 +1,7 @@
 package mk.ukim.finki.foodwizbackend.domain.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +21,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "documents")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Document {
 
     public Document(String text, String documentId, String metadata, Corpus corpus, Status status) {
@@ -31,7 +34,7 @@ public class Document {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
 
     private String originalId;
 
@@ -39,6 +42,7 @@ public class Document {
     private String text;
 
     @Column(columnDefinition="TEXT")
+    @JsonIgnore
     private String metaData;
 
     @Enumerated(EnumType.STRING)
@@ -55,9 +59,11 @@ public class Document {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "corpus_id", nullable = false)
+    @JsonIgnore
     private Corpus corpus;
 
     @OneToMany(mappedBy = "document", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<AnnotationSpan> annotationSpans = new ArrayList<>();
 
 }

@@ -2,7 +2,7 @@ import axios from "../custom-axios/axios";
 
 const CorpusService = {
   fetchCorpuses: () => {
-    return axios.get("corpus/");
+    return axios.get("corpus");
   },
 
   fetchCorpus: (id, page, perPage) => {

@@ -28,7 +28,7 @@ const Header = (props) => {
               </Link>
             </li>
             <li className="nav-item active">
-              <Link className="nav-link" to={"/datasets"}>
+              <Link className="nav-link active" to={"/datasets"}>
                 Datasets
               </Link>
             </li>

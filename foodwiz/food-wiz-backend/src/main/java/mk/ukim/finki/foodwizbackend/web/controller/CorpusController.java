@@ -3,6 +3,7 @@ package mk.ukim.finki.foodwizbackend.web.controller;
 import mk.ukim.finki.foodwizbackend.domain.models.Corpus;
 import mk.ukim.finki.foodwizbackend.service.CorpusService;
 import mk.ukim.finki.foodwizbackend.service.ImportService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,13 +29,12 @@ public class CorpusController {
     }
 
     @GetMapping("/{id}")
-    public Corpus getCorpus(@PathVariable Long id, @RequestParam Integer perPage, @RequestParam Integer page) {
-        return corpusService.get(id, perPage, page);
+    public ResponseEntity<Object> getCorpus(@PathVariable Long id, @RequestParam Integer perPage, @RequestParam Integer page) {
+        return new ResponseEntity<>(corpusService.get(id, perPage, page), HttpStatus.OK);
     }
 
     @PostMapping("/convert")
     public ResponseEntity<String> convertJson(@RequestParam("files") MultipartFile file) {
-        // todo:
         return importService.importCorpus(file);
     }
 }

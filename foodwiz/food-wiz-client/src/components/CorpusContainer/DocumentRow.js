@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import ValidationButton from "./ValidationButton";
 
-function DocumentRow({ i, document, fetchDocuments }) {
+function DocumentRow({ i, document, fetchDocuments, changeStatus }) {
   return (
     <tr>
       <th scope="row">{i + 1}</th>
@@ -13,12 +13,12 @@ function DocumentRow({ i, document, fetchDocuments }) {
           className="btn btn-primary"
           style={{ width: "150px" }}
         >
-          {document.id}
+          {document.originalId}
         </Link>
       </td>
       <td className="text-capitalize font-weight-bold">{document.status}</td>
       <td className="text-capitalize font-weight-bold">
-        <ValidationButton document={document} fetchDocuments={fetchDocuments} />
+        <ValidationButton document={document} fetchDocuments={fetchDocuments} changeStatus={changeStatus} />
       </td>
     </tr>
   );

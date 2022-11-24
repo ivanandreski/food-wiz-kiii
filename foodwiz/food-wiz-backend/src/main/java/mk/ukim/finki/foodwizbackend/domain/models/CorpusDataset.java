@@ -1,5 +1,7 @@
 package mk.ukim.finki.foodwizbackend.domain.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +20,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "corpus_datasets")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class CorpusDataset {
 
     public CorpusDataset(Corpus corpus, Dataset dataset) {
@@ -27,7 +30,7 @@ public class CorpusDataset {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
 
     @CreationTimestamp
     @Column(columnDefinition = "TIMESTAMP")
@@ -39,9 +42,11 @@ public class CorpusDataset {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dataset_id", nullable = false)
+    @JsonIgnore
     private Dataset dataset;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "corpus_id", nullable = false)
+    @JsonIgnore
     private Corpus corpus;
 }

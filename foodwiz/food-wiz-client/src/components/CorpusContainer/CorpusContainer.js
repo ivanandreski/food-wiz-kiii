@@ -18,9 +18,9 @@ const CorpusContainer = () => {
 
   const fetchDocuments = () => {
     CorpusService.fetchCorpus(id, page, itemsPerPage).then((resp) => {
-      setDocuments(resp.data.documents);
-      setPageCount(resp.data.pageCount);
-      setPage(resp.data.page);
+      setDocuments(resp.data.content);
+      setPageCount(resp.data.totalPages - 1);
+      setPage(resp.data.number);
     });
   };
 
@@ -33,8 +33,21 @@ const CorpusContainer = () => {
           i={i}
           document={document}
           fetchDocuments={fetchDocuments}
+          changeStatus={changeStatus}
         />
       ));
+  };
+
+  const changeStatus = (document) => {
+    const newDocuments = [];
+    for (let i = 0; i < documents.length; i++) {
+      if (documents[i].id === document.id) {
+        newDocuments.push(document);
+      } else {
+        newDocuments.push(documents[i]);
+      }
+    }
+    setDocuments(newDocuments);
   };
 
   const handlePerPageChange = (e) => {

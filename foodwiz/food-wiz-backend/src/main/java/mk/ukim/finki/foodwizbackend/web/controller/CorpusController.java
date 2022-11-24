@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/corpus")
+@CrossOrigin
 public class CorpusController {
 
     private final CorpusService corpusService;
@@ -32,7 +33,7 @@ public class CorpusController {
     }
 
     @PostMapping("/convert")
-    public ResponseEntity<String> convertJson(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> convertJson(@RequestParam("files") MultipartFile file) {
         // todo:
         return importService.importCorpus(file);
     }

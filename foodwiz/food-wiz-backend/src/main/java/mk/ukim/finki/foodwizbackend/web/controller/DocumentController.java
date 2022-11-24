@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/document")
+@CrossOrigin
 public class DocumentController {
 
     private DocumentService documentService;

@@ -190,6 +190,10 @@ public class ImportServiceImpl implements ImportService {
         StringBuilder message = new StringBuilder();
         message.append("Successfully imported:\n");
         for (MultipartFile file : Arrays.stream(files).toList()) {
+            if(datasetRepository.existsByTitle(file.getOriginalFilename())) {
+                message.append(String.format("Dataset with filename %s already exists.", file.getOriginalFilename()));
+                continue;
+            }
             BufferedReader br;
             StringBuilder result = new StringBuilder();
             try {

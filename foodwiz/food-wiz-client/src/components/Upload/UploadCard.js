@@ -34,7 +34,7 @@ const UploadCard = (props) => {
     e.preventDefault();
     const data = new FormData();
     for (let i = 0; i < selectedFiles.length; i++)
-      data.append("file[]", selectedFiles[i]);
+      data.append("files", selectedFiles[i]);
     changeLoading(true);
     UploadService.upload(title, data)
       .then((res) => {

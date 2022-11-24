@@ -64,52 +64,56 @@ public class ImportServiceImpl implements ImportService {
             List<CorpusDataset> corpusDatasets = new ArrayList<>();
             List<AnnotationSpanDatasetTag> annotationSpanDatasetTags = new ArrayList<>();
 
+            String corpusTitle = file.getOriginalFilename().replace(".json", "");
+            if (corpusRepository.existsByTitle(corpusTitle))
+                return new ResponseEntity<>(String.format("Corpus with filename: %s already exists", corpusTitle), HttpStatus.INTERNAL_SERVER_ERROR);
+
+            Corpus corpus = corpusRepository.save(new Corpus(corpusTitle));
+
+            List<Dataset> datasets = datasetRepository.findAll();
+            List<DatasetTag> datasetTags = datasetTagRepository.findAll();
+
+            // for doc in obj:
             while (iterator.hasNext()) {
                 JSONObject object = (JSONObject) iterator.next();
 
-                //if (len(dataset_service.get_all()) == 0)
-
-//                json_data = file.read()
-//                obj = json.loads(json_data)
-
-//                corpus_title = file.filename.split(".json")[0]
-//                if (corpus_service.get_by_title(corpus_title)):
-//                return f 'Corpus with filename: {corpus_title} already exists', 500
-                String corpusTitle = file.getName();
-                if (corpusRepository.existsByTitle(corpusTitle))
-                    return new ResponseEntity<>(String.format("Corpus with filename: %s already exists", corpusTitle), HttpStatus.INTERNAL_SERVER_ERROR);
-
-//                corpus = corpus_service.save(title = corpus_title, link = "", description = "")
-//                corpus_id = corpus.id
-                Corpus corpus = corpusRepository.save(new Corpus(corpusTitle));
-
-//                datasets = Dataset.query.all()
-                List<Dataset> datasets = datasetRepository.findAll();
-
-//                documents = {}
-//                annotation_spans = {}
-//                corpus_datasets = {}
-//                annotation_span_dataset_tags = {}
-
-                //document_metadata = json.dumps(doc)
-                //document_id = int(doc["pubmed_id"])
-                //documents[document_id] = Document(text = document_text, id = document_id, meta_data = document_metadata, corpus_id = corpus_id, status = Status['NEW'])
-                String documentText = (String) object.get("abstract");
-                String documentId = (String) object.get("pubmed_id");
+                String documentText = object.getString("abstract");
+                String documentId = Integer.toString(object.getInt("pubmed_id"));
                 String metadata = object.toString();
                 Document document = new Document(documentText, documentId, metadata, corpus, Status.NEW);
                 documentRepository.save(document);
-                corpus.getDocuments().add(document);
+//                corpus.getDocuments().add(document);
 
                 Iterator<String> keys = object.keys();
+                // for el in doc:
                 while (keys.hasNext()) {
                     String key = keys.next();
+                    try {
+                        String isString = object.getString(key);
+                        continue;
+                    } catch (JSONException ignored) {}
                     Object value = object.get(key);
-                    if (value.toString().startsWith("[")) {
-                        JSONArray array = new JSONArray(value);
+                    // if type(doc[el]) == list:
+                    if (value.toString().startsWith("[") && !value.toString().equals("[]")) {
+                        JSONArray array;
+                        try {
+                            array = new JSONArray(value.toString());
+                        } catch (JSONException e) {
+                            return new ResponseEntity<>(value.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+                        }
                         Iterator<Object> arrayIterator = array.iterator();
+                        // for i in doc
                         while (arrayIterator.hasNext()) {
-                            JSONObject i = (JSONObject) arrayIterator.next();
+                            Object iterValue = arrayIterator.next();
+//                            if(iterValue.toString().equals("None")) {
+//                                continue;
+//                            }
+                            JSONObject i;
+                            try {
+                                i = new JSONObject(iterValue.toString());
+                            } catch (JSONException e) {
+                                return new ResponseEntity<>(iterValue.toString() + array.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+                            }
                             Integer startChar;
                             Integer endChar;
                             try {
@@ -122,28 +126,39 @@ public class ImportServiceImpl implements ImportService {
                             AnnotationSpan annotationSpan = new AnnotationSpan(startChar, endChar, text, document);
                             document.getAnnotationSpans().add(annotationSpan);
                             document.setStatus(Status.ANNOTATED);
+
                             for (String iKey : i.keySet()) {
                                 boolean flag = datasets.stream()
-                                        .map(Dataset::getTitle)
+                                        .filter(dataset -> dataset.getTitle().toLowerCase().contains(iKey.toLowerCase()))
                                         .toList()
-                                        .contains(iKey);
+                                        .size() > 0;
                                 if (flag) {
-                                    corpusDatasets.add(new CorpusDataset(corpus, datasets.stream().filter(dataset -> dataset.getTitle().equals(iKey)).findFirst().get()));
-                                    String[] tagIds = i.getString(iKey).split("\\*\\*\\*");
+                                    if(corpusDatasets.stream().filter(c -> c.getDataset().getTitle().toLowerCase().contains(iKey.toLowerCase())).toList().size() == 0)
+                                        corpusDatasets.add(new CorpusDataset(corpus, datasets.stream().filter(dataset -> dataset.getTitle().toLowerCase().contains(iKey.toLowerCase())).findFirst().get()));
+                                    String[] tagIds;
+                                    try {
+                                        tagIds = i.getString(iKey).split("\\*\\*\\*");
+                                    } catch (JSONException e) {
+                                        continue;
+                                    }
+
+                                    // for t in tag_ids:
                                     for (String tagId : tagIds) {
-                                        String datasetTagId = null;
+                                        String datasetTagId;
                                         if (tagId.contains("http")) {
                                             String[] split = tagId.split("/");
                                             datasetTagId = split[split.length - 1];
                                         } else {
                                             datasetTagId = tagId;
                                         }
-                                        DatasetTag tag = datasetTagRepository.findByTagId(datasetTagId);
-                                        if (tag != null) {
+                                        Optional<DatasetTag> tag = datasetTags.stream()
+                                                .filter(t -> t.getTagId().equals(datasetTagId))
+                                                .findFirst();
+                                        if (tag.isPresent()) {
                                             AnnotationSpanDatasetTag annotationSpanDatasetTag = new AnnotationSpanDatasetTag(
-                                                    tag,
+                                                    tag.get(),
                                                     annotationSpan,
-                                                    tag.getTagName(),
+                                                    tag.get().getTagName(),
                                                     key
                                             );
                                             annotationSpanDatasetTags.add(annotationSpanDatasetTag);
@@ -151,20 +166,22 @@ public class ImportServiceImpl implements ImportService {
                                     }
                                 }
                             }
-
-                            documentRepository.save(document);
                         }
                     }
+
+//                    documentRepository.save(document);
                 }
-                corpusRepository.save(corpus);
-                corpusDatasetRepository.saveAll(corpusDatasets);
-                annotationSpanDatasetTagRepository.saveAll(annotationSpanDatasetTags);
+//                corpusRepository.save(corpus);
+                annotationSpanRepository.saveAll(document.getAnnotationSpans());
+                System.out.println("Document " + documentId + " done");
             }
+            corpusDatasetRepository.saveAll(corpusDatasets);
+            annotationSpanDatasetTagRepository.saveAll(annotationSpanDatasetTags);
         } catch (JSONException err) {
             return new ResponseEntity<>(err.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        return null;
+        return new ResponseEntity<>("Corpus file with all relatonships successfully imported", HttpStatus.OK);
 
     }
 
@@ -172,8 +189,7 @@ public class ImportServiceImpl implements ImportService {
     public ResponseEntity<String> importDataset(MultipartFile[] files) {
         StringBuilder message = new StringBuilder();
         message.append("Successfully imported:\n");
-//        List<DatasetTag> datasetTags = new ArrayList<>();
-        for (MultipartFile file : files) {
+        for (MultipartFile file : Arrays.stream(files).toList()) {
             BufferedReader br;
             StringBuilder result = new StringBuilder();
             try {
@@ -185,13 +201,15 @@ public class ImportServiceImpl implements ImportService {
                 }
 
             } catch (IOException e) {
-                System.err.println(e.getMessage());
+                return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
             }
 
             try {
                 JSONObject parsedJson = new JSONObject(result.toString());
 
-                String datasetTitle = file.getOriginalFilename();
+                String datasetTitle = file.getOriginalFilename().replace(".json", "");
+                if (datasetRepository.existsByTitle(datasetTitle))
+                    continue;
                 Dataset dataset = datasetRepository.save(new Dataset(datasetTitle));
 
                 Iterator<String> iterator = parsedJson.keys();
@@ -200,20 +218,19 @@ public class ImportServiceImpl implements ImportService {
                 while (iterator.hasNext()) {
                     String key = iterator.next();
                     String tagName = parsedJson.getString(key);
-                    tags.add(new DatasetTag(key, tagName, dataset));
+                    if (tags.stream().filter(t -> t.getTagId().equals(key)).toList().size() == 0)
+                        tags.add(new DatasetTag(key, tagName, dataset));
                     counter++;
                 }
 
                 message.append(String.format("Dataset: %s with %d dataset tags\n", datasetTitle, counter));
 
-                datasetRepository.save(dataset);
                 datasetTagRepository.saveAll(tags);
-                return new ResponseEntity<>(message.toString(), HttpStatus.OK);
             } catch (JSONException err) {
                 return new ResponseEntity<>(err.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
 
-        return new ResponseEntity<>("Something went wrong!", HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(message.toString(), HttpStatus.OK);
     }
 }

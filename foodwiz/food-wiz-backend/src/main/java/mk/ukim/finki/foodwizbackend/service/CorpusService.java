@@ -1,5 +1,6 @@
 package mk.ukim.finki.foodwizbackend.service;
 
+import mk.ukim.finki.foodwizbackend.domain.dto.out.DatasetsByCorpusDto;
 import mk.ukim.finki.foodwizbackend.domain.models.Corpus;
 import mk.ukim.finki.foodwizbackend.domain.projections.DocumentProjection;
 import org.springframework.data.domain.Page;
@@ -11,4 +12,6 @@ public interface CorpusService {
     List<Corpus> getAll();
 
     Page<DocumentProjection> get(Long id, Integer perPage, Integer page);
+
+    DatasetsByCorpusDto getDatasetsByCorpus(Long documentId);
 }

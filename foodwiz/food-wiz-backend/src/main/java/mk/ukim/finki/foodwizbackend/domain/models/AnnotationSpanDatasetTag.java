@@ -48,6 +48,7 @@ public class AnnotationSpanDatasetTag {
 
     private String source;
 
+    // potential bug with these not getting filled when importing
     private Boolean removed;
 
     private String removedBy;

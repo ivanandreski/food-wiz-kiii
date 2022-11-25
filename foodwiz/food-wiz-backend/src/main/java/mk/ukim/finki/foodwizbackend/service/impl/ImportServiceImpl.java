@@ -191,7 +191,7 @@ public class ImportServiceImpl implements ImportService {
         message.append("Successfully imported:\n");
         for (MultipartFile file : Arrays.stream(files).toList()) {
             if(datasetRepository.existsByTitle(file.getOriginalFilename())) {
-                message.append(String.format("Dataset with filename %s already exists.", file.getOriginalFilename()));
+                message.append(String.format("Dataset with filename %s already exists.\n", file.getOriginalFilename()));
                 continue;
             }
             BufferedReader br;

@@ -1,5 +1,6 @@
 package mk.ukim.finki.foodwizbackend.web.controller;
 
+import mk.ukim.finki.foodwizbackend.domain.dto.out.DatasetsByCorpusDto;
 import mk.ukim.finki.foodwizbackend.domain.models.Corpus;
 import mk.ukim.finki.foodwizbackend.service.CorpusService;
 import mk.ukim.finki.foodwizbackend.service.ImportService;
@@ -31,6 +32,11 @@ public class CorpusController {
     @GetMapping("/{id}")
     public ResponseEntity<Object> getCorpus(@PathVariable Long id, @RequestParam Integer perPage, @RequestParam Integer page) {
         return new ResponseEntity<>(corpusService.get(id, perPage, page), HttpStatus.OK);
+    }
+
+    @GetMapping("/{documentId}/datasets")
+    public DatasetsByCorpusDto getDatasetsForCorpus(@PathVariable Long documentId) {
+        return corpusService.getDatasetsByCorpus(documentId);
     }
 
     @PostMapping("/convert")

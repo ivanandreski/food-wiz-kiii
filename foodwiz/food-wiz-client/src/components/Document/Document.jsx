@@ -30,9 +30,9 @@ const Document = () => {
   const fetchDocument = () => {
     DocumentService.fetchDocument(id, datasetString, sourceString).then(
       (resp) => {
-        console.log(resp.data);
         setDocument(resp.data.document);
-        setTokens(resp.data.tokens);
+        setTokens(JSON.parse(resp.data.tokens));
+        console.log(JSON.parse(resp.data.tokens));
       }
     );
   };

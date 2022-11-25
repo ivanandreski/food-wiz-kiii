@@ -12,6 +12,7 @@ const BasicPopover = ({
   documentId,
   datasetString,
   setDatasetString,
+  datasets,
 }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const handleClick = (event) => {
@@ -156,6 +157,7 @@ const BasicPopover = ({
           <div className="p-2">
             {Object.keys(datasetTags).map((key) => (
               <AddTagSelector
+                datasets={datasets}
                 datasetTags={datasetTags}
                 k={key}
                 key={key}

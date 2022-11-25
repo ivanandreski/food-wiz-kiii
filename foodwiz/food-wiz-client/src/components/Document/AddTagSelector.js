@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import Select from "react-select";
 
-const AddTagSelector = ({ datasetTags, k, handleAdd }) => {
+const AddTagSelector = ({ datasetTags, k, handleAdd, datasets }) => {
   const [selectedTag, setSelectedTag] = useState("");
   const [options, setOptions] = useState(
     datasetTags[k].slice(0, 60).map((tag) => {
       return {
         value: tag.id,
-        label: tag.id + ": " + tag.tag_name,
+        label: tag.tagId + ": " + tag.tagName,
       };
     })
   );
@@ -15,13 +15,13 @@ const AddTagSelector = ({ datasetTags, k, handleAdd }) => {
     setOptions(
       datasetTags[k]
         .filter((option) => {
-          if (option.id.includes(e) || option.tag_name.includes(e)) return true;
+          return option.tagId.includes(e) || option.tagName.includes(e);
         })
         .slice(0, 100)
         .map((option) => {
           return {
             value: option.id,
-            label: option.id + ": " + option.tag_name,
+            label: option.tagId + ": " + option.tagName,
           };
         })
     );
@@ -30,7 +30,7 @@ const AddTagSelector = ({ datasetTags, k, handleAdd }) => {
   return (
     <div key={k} className="row">
       <div className="col-md-8">
-        {k}:
+        {datasets.filter((d) => d.id == k)[0]?.title || ""}:
         <Select
           name={k}
           onChange={(value) => setSelectedTag(value.value)}

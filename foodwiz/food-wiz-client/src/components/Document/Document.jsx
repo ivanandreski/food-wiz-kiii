@@ -82,6 +82,7 @@ const Document = () => {
       datasetTags={datasetTags}
       documentId={id}
       datasetString={datasetString}
+      datasets={datasets}
       setDatasetString={setDatasetString}
     />
   ));

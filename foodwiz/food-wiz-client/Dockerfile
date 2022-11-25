@@ -1,6 +1,6 @@
-FROM node:16
+FROM node:18.10.0
 WORKDIR /app
 COPY package.json ./
-#COPY package-lock.json ./
+COPY package-lock.json ./
 COPY ./ ./
-RUN npm i --legacy-peer-deps
+RUN npm i

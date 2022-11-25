@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>mk.ukim.finki</groupId>
 	<artifactId>FoodWizBackend</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>food-wiz-backend</version>
 	<name>FoodWizBackend</name>
 	<description>FoodWizBackend</description>
 	<properties>

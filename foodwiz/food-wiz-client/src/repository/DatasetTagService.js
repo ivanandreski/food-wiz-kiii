@@ -2,7 +2,7 @@ import axios from "../custom-axios/axios";
 
 const DatasetTagService = {
   fetchDatasetTags: (datasetString) => {
-    return axios.get(`/datasetTag/?datasets=${datasetString}`);
+    return axios.get(`/datasetTag?datasets=${datasetString}`);
   },
 
   addTag: (tagId, formData) => {

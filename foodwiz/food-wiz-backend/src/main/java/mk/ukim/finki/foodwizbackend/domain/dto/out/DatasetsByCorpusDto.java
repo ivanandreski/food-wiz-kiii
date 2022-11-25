@@ -21,7 +21,7 @@ public class DatasetsByCorpusDto {
                 .map(CorpusDataset::getDataset)
                 .toList();
         StringBuilder sb = new StringBuilder();
-        this.datasets.forEach(d -> sb.append(d.getTitle()).append(","));
+        this.datasets.forEach(d -> sb.append(d.getId()).append(","));
         datasetString = sb.toString();
     }
 }

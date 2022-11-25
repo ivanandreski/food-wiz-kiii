@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import BasicPopover from "./Popover";
-import TokenAnnotation from "./TokenAnnotation";
 import DocumentService from "../../repository/DocumentService";
 import DatasetService from "../../repository/DatasetService";
 import DatasetsFilter from "./DatasetsFilter";
@@ -32,7 +31,6 @@ const Document = () => {
       (resp) => {
         setDocument(resp.data.document);
         setTokens(JSON.parse(resp.data.tokens));
-        console.log(JSON.parse(resp.data.tokens));
       }
     );
   };
@@ -46,7 +44,7 @@ const Document = () => {
       }
 
       if (datasetString === "empty") {
-        setDatasetString(resp.data.string);
+        setDatasetString(resp.data.datasetString);
         setCheckedDatasets(temp);
       }
     });
@@ -68,9 +66,11 @@ const Document = () => {
   };
 
   const fetchDatasetTags = () => {
+    console.log(datasetString);
     DatasetTagService.fetchDatasetTags(datasetString)
       .then((response) => {
         setDatasetTags(response.data);
+        console.log(response.data);
       })
       .catch((error) => console.log(error));
   };

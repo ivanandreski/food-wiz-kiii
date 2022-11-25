@@ -53,6 +53,7 @@ public class DatasetTag {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dataset_id", nullable = false)
+    @JsonIgnore
     private Dataset dataset;
 
     @OneToMany(mappedBy = "datasetTag", cascade = CascadeType.ALL, orphanRemoval = true)

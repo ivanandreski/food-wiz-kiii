@@ -23,6 +23,7 @@ const BasicPopover = ({
   };
 
   function getClass() {
+    // console.log(token);
     return token.tags.length > 0 ? " badge text-bg-success" : "";
   }
 
@@ -30,49 +31,73 @@ const BasicPopover = ({
   const id = open ? "simple-popover" : undefined;
 
   const handleAdd = (tagId) => {
-    if (sessionStorage.getItem("token") === null) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "You must be logged in for this feature",
-      });
-    } else {
-      let formData = new FormData();
-      formData.append("start", token.start);
-      formData.append("text", token.text);
-      formData.append("documentId", documentId);
+    let formData = new FormData();
+    formData.append("start", token.start);
+    formData.append("text", token.text);
+    formData.append("documentId", documentId);
 
-      DatasetTagService.addTag(tagId, formData)
-        .then((response) => {
-          const temp = datasetString;
-          setDatasetString("");
-          setDatasetString(temp);
-        })
-        .catch((error) => console.log(error));
-    }
+    DatasetTagService.addTag(tagId, formData)
+      .then((response) => {
+        const temp = datasetString;
+        setDatasetString("");
+        setDatasetString(temp);
+      })
+      .catch((error) => console.log(error));
+    // if (sessionStorage.getItem("token") === null) {
+    //   Swal.fire({
+    //     icon: "error",
+    //     title: "Oops...",
+    //     text: "You must be logged in for this feature",
+    //   });
+    // } else {
+    //   let formData = new FormData();
+    //   formData.append("start", token.start);
+    //   formData.append("text", token.text);
+    //   formData.append("documentId", documentId);
+
+    //   DatasetTagService.addTag(tagId, formData)
+    //     .then((response) => {
+    //       const temp = datasetString;
+    //       setDatasetString("");
+    //       setDatasetString(temp);
+    //     })
+    //     .catch((error) => console.log(error));
+    // }
   };
 
   const handleDelete = (tagId) => {
-    if (sessionStorage.getItem("token") === null) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "You must be logged in for this feature",
-      });
-    } else {
-      let formData = new FormData();
-      formData.append("start", token.start);
-      formData.append("text", token.text);
-      formData.append("documentId", documentId);
+    // if (sessionStorage.getItem("token") === null) {
+    //   Swal.fire({
+    //     icon: "error",
+    //     title: "Oops...",
+    //     text: "You must be logged in for this feature",
+    //   });
+    // } else {
+    //   let formData = new FormData();
+    //   formData.append("start", token.start);
+    //   formData.append("text", token.text);
+    //   formData.append("documentId", documentId);
 
-      DatasetTagService.markDelete(tagId, formData)
-        .then((response) => {
-          const temp = datasetString;
-          setDatasetString("");
-          setDatasetString(temp);
-        })
-        .catch((error) => console.log(error));
-    }
+    //   DatasetTagService.markDelete(tagId, formData)
+    //     .then((response) => {
+    //       const temp = datasetString;
+    //       setDatasetString("");
+    //       setDatasetString(temp);
+    //     })
+    //     .catch((error) => console.log(error));
+    // }
+    let formData = new FormData();
+    formData.append("start", token.start);
+    formData.append("text", token.text);
+    formData.append("documentId", documentId);
+
+    DatasetTagService.markDelete(tagId, formData)
+      .then((response) => {
+        const temp = datasetString;
+        setDatasetString("");
+        setDatasetString(temp);
+      })
+      .catch((error) => console.log(error));
   };
 
   return (
@@ -109,19 +134,21 @@ const BasicPopover = ({
                 <div
                   key={ix}
                   className={
-                    it.removed
+                    it.removed == true
                       ? "badge m-1 text-bg-danger"
                       : "badge m-1 text-bg-secondary"
                   }
                   title={`Dataset: ${it.dataset}, Source: ${it.source}, ${
-                    it.removed ? "Removed by: " + it.removedBy : ""
+                    it.removed == true ? "Removed by: " + it.removedBy : ""
                   }`}
                 >
                   [{it.link}] {it.token}{" "}
-                  <i
-                    className="fa fa-fw fa-remove clickable"
+                  <button
+                    className="btn btn-dark fw-bold"
                     onClick={() => handleDelete(it.link)}
-                  />
+                  >
+                    X
+                  </button>
                 </div>
               ))}
             </div>

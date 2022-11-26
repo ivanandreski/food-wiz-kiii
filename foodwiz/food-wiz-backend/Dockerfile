@@ -1,24 +1,9 @@
-# FROM eclipse-temurin:17-jdk-alpine as build
-# WORKDIR /workspace/app
+FROM maven:3.8.6-eclipse-temurin-17 AS build  
+COPY src /usr/src/app/src  
+COPY pom.xml /usr/src/app  
+RUN mvn -f /usr/src/app/pom.xml clean package
 
-# COPY mvnw .
-# COPY .mvn .mvn
-# COPY pom.xml .
-# COPY src src
-
-# RUN ./mvnw install -DskipTests
-# RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
-
-# FROM eclipse-temurin:17-jdk-alpine
-# VOLUME /tmp
-# ARG DEPENDENCY=/workspace/app/target/dependency
-# COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
-# COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
-# COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
-# ENTRYPOINT ["java","-cp","app:app/lib/*","hello.Application"]
-
-FROM openjdk:17-jdk-alpine
-EXPOSE 8080
-ARG JAR_FILE=target/demo-app-1.0.0.jar
-ADD ${JAR_FILE} app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+FROM gcr.io/distroless/java  
+COPY --from=build /usr/src/app/target/FoodWizBackend.jar /usr/app/FoodWizBackend.jar  
+EXPOSE 8080  
+ENTRYPOINT ["java","-jar","/usr/app/helloworld-1.0.0-SNAPSHOT.jar"]  

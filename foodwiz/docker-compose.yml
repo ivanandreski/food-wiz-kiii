@@ -4,6 +4,7 @@ services:
   db:
     container_name: db
     image: postgres
+    restart: always
     ports:
       - 5432:5432
     environment:
@@ -30,17 +31,42 @@ services:
     #   - DB_NAME=postgres
     # depends_on:
     #   - db
+    command: ["flask", "run", "--host=0.0.0.0"]
 
   backend:
     container_name: backend
     image: food-wiz-backend
+    # restart: on-failure
+    depends_on:
+      - db
+      - automation
+    # links:
+    #   - automation
     build:
       context: ./food-wiz-backend
       dockerfile: Dockerfile
     ports:
       - 8080:8080
     environment:
-      - name=value
+      - spring_jpa_properties_hibernate_temp_user_jdbc_metadata_defaults=false
+      - spring_datasource_url=jdbc:postgresql://db:5432/postgres
+      - spring_datasource_username=postgres
+      - spring_datasource_password=postgres
+      - spring_jpa_properties_hibernate_dialect=org.hibernate.dialect.PostgreSQL95Dialect
+      - spring_jpa_hibernate_ddl-auto=update
+      - flask_url=http://automation:5000/api
+      # - flask_url=http://fvz.env4health.finki.ukim.mk/api
+      - server_servlet_contextPath=/api
+      - spring_servlet_multipart_max-file-size=-1
+      - spring_servlet_multipart_max-request-size=-1
+    command: [
+        # "./wait-for-it.sh",
+        # "A_db:5432",
+        # "--",
+        "java",
+        "-jar",
+        "FoodWizBackend.jar",
+      ]
 
   client:
     container_name: client

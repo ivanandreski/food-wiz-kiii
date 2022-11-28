@@ -2,11 +2,11 @@
 <hr>
 <h3>How to start the project</h3>
 <hr>
-<h5>Create a database<h5>
+<h5>Create a database</h5>
 - Currently the project files are configured to use a Postgre database</br>
 - Create a database with your desired name</br>
 <hr>
-<h5>Start the SpringBoot server<h5>
+<h5>Start the SpringBoot server</h5>
 - The app is located in the food-wiz-backend folder</br>
 - Navigate to food-wiz-backend/src/main/resources</br>
 - Rename the application-example.properties file to application.properties</br>

@@ -12,11 +12,3 @@ WORKDIR /app
 RUN pip install -r requirements.txt
 
 COPY . /app
-
-# RUN ls -la app/
-
-# RUN flask run
-
-# RUN chmod +x app/entrypoint.sh
-
-# ENTRYPOINT [ "app/entrypoint.sh" ]

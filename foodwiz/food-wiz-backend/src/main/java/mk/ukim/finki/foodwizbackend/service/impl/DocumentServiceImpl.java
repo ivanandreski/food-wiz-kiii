@@ -10,6 +10,7 @@ import mk.ukim.finki.foodwizbackend.domain.models.Document;
 import mk.ukim.finki.foodwizbackend.repository.AnnotationSpanDatasetTagRepository;
 import mk.ukim.finki.foodwizbackend.repository.DocumentRepository;
 import mk.ukim.finki.foodwizbackend.service.DocumentService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -25,6 +26,10 @@ public class DocumentServiceImpl implements DocumentService {
 
     private final DocumentRepository documentRepository;
     private final AnnotationSpanDatasetTagRepository annotationSpanDatasetTagRepository;
+
+    @Value("${flask.url}")
+//    @Value("${spring.datasource.url}")
+    private String flaskUrl;
 
     public DocumentServiceImpl(DocumentRepository documentRepository, AnnotationSpanDatasetTagRepository annotationSpanDatasetTagRepository) {
         this.documentRepository = documentRepository;
@@ -42,7 +47,8 @@ public class DocumentServiceImpl implements DocumentService {
                 .toList();
         DocumentTagsDto requestBody = new DocumentTagsDto(document.getText(), tagsForConversion);
         try {
-            URL url = new URL("http://127.0.0.1:5000/api/convert-annotation-spans");
+            System.out.println(this.flaskUrl);
+            URL url = new URL(this.flaskUrl + "/convert-annotation-spans");
             HttpURLConnection con = (HttpURLConnection)url.openConnection();
             con.setRequestMethod("POST");
             con.setRequestProperty("Content-Type", "application/json");

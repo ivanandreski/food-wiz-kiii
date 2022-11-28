@@ -75,7 +75,7 @@ const Document = () => {
       .catch((error) => console.log(error));
   };
 
-  const tokenSpans = tokens.map((t, ix) => (
+  const tokenSpans = tokens?.map((t, ix) => (
     <BasicPopover
       key={ix}
       token={t}

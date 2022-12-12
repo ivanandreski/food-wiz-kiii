@@ -47,6 +47,7 @@ services:
       - server_servlet_contextPath=/api
       - spring_servlet_multipart_max-file-size=-1
       - spring_servlet_multipart_max-request-size=-1
+      - jwt_secret=3rf2jr89m2fut24yt9m2futjkehdgkhj
     command: [
         "java",
         "-jar",

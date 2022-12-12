@@ -4,6 +4,7 @@ import mk.ukim.finki.foodwizbackend.domain.models.User;
 import mk.ukim.finki.foodwizbackend.repository.UserRepository;
 import mk.ukim.finki.foodwizbackend.security.JWTUtil;
 import mk.ukim.finki.foodwizbackend.web.dto.in.LoginCredentials;
+import mk.ukim.finki.foodwizbackend.web.dto.in.RegisterCredentials;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,18 +20,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-
-    // todo: /users/signup
-    // post
-    // email, password, fullName
-
-    // todo: /users/login
-    // post
-    // email, password
-
-    // todo: /users/getEmail
-    // getRequest
-
     @Autowired
     private UserRepository userRepo;
     @Autowired private JWTUtil jwtUtil;
@@ -38,11 +27,16 @@ public class UserController {
     @Autowired private PasswordEncoder passwordEncoder;
 
     @PostMapping("/signup")
-    public Map<String, Object> registerHandler(@RequestBody User user){
-        String encodedPass = passwordEncoder.encode(user.getPassword());
+    public Map<String, Object> registerHandler(@RequestBody RegisterCredentials registerCredentials){
+        String encodedPass = passwordEncoder.encode(registerCredentials.getPassword());
+        User user = new User();
         user.setPassword(encodedPass);
+        user.setEmail(registerCredentials.getEmail());
+        user.setUsername(registerCredentials.getEmail());
+        user.setFirstName(registerCredentials.getEmail());
+        user.setLastName(registerCredentials.getEmail());
         user = userRepo.save(user);
-        String token = jwtUtil.generateToken(user.getEmail());
+        String token = jwtUtil.generateToken(user.getUsername());
         return Collections.singletonMap("jwt-token", token);
     }
 

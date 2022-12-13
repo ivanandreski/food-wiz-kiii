@@ -44,11 +44,11 @@ public class UserController {
     public Map<String, Object> loginHandler(@RequestBody LoginCredentials body){
         try {
             UsernamePasswordAuthenticationToken authInputToken =
-                    new UsernamePasswordAuthenticationToken(body.getEmail(), body.getPassword());
+                    new UsernamePasswordAuthenticationToken(body.getUsername(), body.getPassword());
 
             authManager.authenticate(authInputToken);
 
-            String token = jwtUtil.generateToken(body.getEmail());
+            String token = jwtUtil.generateToken(body.getUsername());
 
             return Collections.singletonMap("jwt-token", token);
         }catch (AuthenticationException authExc){

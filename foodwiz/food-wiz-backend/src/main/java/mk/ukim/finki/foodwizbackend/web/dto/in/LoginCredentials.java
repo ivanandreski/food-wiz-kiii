@@ -9,7 +9,7 @@ import lombok.*;
 @ToString
 public class LoginCredentials {
 
-    private String email;
+    private String username;
     private String password;
 
 }

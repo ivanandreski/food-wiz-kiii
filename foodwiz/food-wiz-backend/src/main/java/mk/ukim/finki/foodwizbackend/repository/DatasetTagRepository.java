@@ -9,11 +9,12 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface DatasetTagRepository extends JpaRepository<DatasetTag, Long> {
 
-    DatasetTag findByTagId(String tagId);
+    Optional<DatasetTag> findByTagId(String tagId);
 
     @Query(value = "select dt.*" +
             " from dataset_tags dt" +

@@ -37,7 +37,7 @@ const SourceFilter = ({
           defaultChecked={true}
           onChange={handleChange}
         />
-        <span className="text-capitalize"> {source}</span>
+        <span className=""> {source}</span>
       </span>
     ));
   };

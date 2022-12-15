@@ -32,73 +32,83 @@ const BasicPopover = ({
   const id = open ? "simple-popover" : undefined;
 
   const handleAdd = (tagId) => {
-    let formData = new FormData();
-    formData.append("start", token.start);
-    formData.append("text", token.text);
-    formData.append("documentId", documentId);
+    // let formData = new FormData();
+    // formData.append("start", token.start);
+    // formData.append("text", token.text);
+    // formData.append("documentId", documentId);
 
-    DatasetTagService.addTag(tagId, formData)
-      .then((response) => {
-        const temp = datasetString;
-        setDatasetString("");
-        setDatasetString(temp);
-      })
-      .catch((error) => console.log(error));
-    // if (sessionStorage.getItem("token") === null) {
-    //   Swal.fire({
-    //     icon: "error",
-    //     title: "Oops...",
-    //     text: "You must be logged in for this feature",
-    //   });
-    // } else {
-    //   let formData = new FormData();
-    //   formData.append("start", token.start);
-    //   formData.append("text", token.text);
-    //   formData.append("documentId", documentId);
+    // DatasetTagService.addTag(tagId, formData)
+    //   .then((response) => {
+    //     const temp = datasetString;
+    //     setDatasetString("");
+    //     setDatasetString(temp);
+    //   })
+    //   .catch((error) => console.log(error));
+    if (localStorage.getItem("token") === null) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "You must be logged in for this feature",
+      });
+    } else {
+      //   let formData = new FormData();
+      //   formData.append("start", token.start);
+      //   formData.append("text", token.text);
+      //   formData.append("documentId", documentId);
+      let formData = {
+        startChar: token.start,
+        text: token.text,
+        documentId: documentId,
+      };
 
-    //   DatasetTagService.addTag(tagId, formData)
-    //     .then((response) => {
-    //       const temp = datasetString;
-    //       setDatasetString("");
-    //       setDatasetString(temp);
-    //     })
-    //     .catch((error) => console.log(error));
-    // }
+      DatasetTagService.addTag(tagId, formData)
+        .then((response) => {
+          setDatasetString("empty");
+        })
+        .catch((error) => console.log(error));
+    }
   };
 
-  const handleDelete = (tagId) => {
-    // if (sessionStorage.getItem("token") === null) {
-    //   Swal.fire({
-    //     icon: "error",
-    //     title: "Oops...",
-    //     text: "You must be logged in for this feature",
-    //   });
-    // } else {
-    //   let formData = new FormData();
-    //   formData.append("start", token.start);
-    //   formData.append("text", token.text);
-    //   formData.append("documentId", documentId);
+  const handleDelete = (tagId, it) => {
+    {
+      console.log(it);
+    }
+    return;
+    if (localStorage.getItem("token") === null) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "You must be logged in for this feature",
+      });
+    } else {
+      //   let formData = new FormData();
+      //   formData.append("start", token.start);
+      //   formData.append("text", token.text);
+      //   formData.append("documentId", documentId);
+      let formData = {
+        startChar: token.start,
+        text: token.text,
+        documentId: documentId,
+      };
 
-    //   DatasetTagService.markDelete(tagId, formData)
-    //     .then((response) => {
-    //       const temp = datasetString;
-    //       setDatasetString("");
-    //       setDatasetString(temp);
-    //     })
-    //     .catch((error) => console.log(error));
-    // }
-    let formData = new FormData();
-    formData.append("start", token.start);
-    formData.append("text", token.text);
-    formData.append("documentId", documentId);
+      DatasetTagService.markDelete(tagId, formData)
+        .then((response) => {
+          setDatasetString("empty");
+        })
+        .catch((error) => console.log(error));
+    }
+    // let formData = new FormData();
+    // formData.append("start", token.start);
+    // formData.append("text", token.text);
+    // formData.append("documentId", documentId);
 
-    DatasetTagService.markDelete(tagId, formData)
-      .then((response) => {
-        const temp = datasetString;
-        setDatasetString("");
-        setDatasetString(temp);
-      })
-      .catch((error) => console.log(error));
+    // DatasetTagService.markDelete(tagId, formData)
+    //   .then((response) => {
+    //     const temp = datasetString;
+    //     setDatasetString("");
+    //     setDatasetString(temp);
+    //   })
+    //   .catch((error) => console.log(error));
   };
 
   return (
@@ -135,18 +145,18 @@ const BasicPopover = ({
                 <div
                   key={ix}
                   className={
-                    it.removed == true
-                      ? "badge m-1 text-bg-danger"
-                      : "badge m-1 text-bg-secondary"
+                    it.removed === "true"
+                      ? "badge m-1 bg-danger"
+                      : "badge m-1 bg-secondary"
                   }
                   title={`Dataset: ${it.dataset}, Source: ${it.source}, ${
-                    it.removed == true ? "Removed by: " + it.removedBy : ""
+                    it.removed === "true" ? "Removed by: " + it.removedBy : ""
                   }`}
                 >
-                  [{it.link}] {it.token}{" "}
+                  [{it.link}] {it.token}
                   <button
                     className="btn btn-dark fw-bold"
-                    onClick={() => handleDelete(it.link)}
+                    onClick={() => handleDelete(it.link, it)}
                   >
                     X
                   </button>

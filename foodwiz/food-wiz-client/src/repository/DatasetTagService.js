@@ -6,11 +6,11 @@ const DatasetTagService = {
   },
 
   addTag: (tagId, formData) => {
-    return axios.put(`/dataset/${tagId}`, formData);
+    return axios.put(`/annotationSpanDatasetTag/${tagId}`, formData);
   },
 
   markDelete: (tagId, formData) => {
-    return axios.put(`/dataset/markDelete/${tagId}`, formData);
+    return axios.put(`/annotationSpanDatasetTag/markDelete/${tagId}`, formData);
   },
 };
 

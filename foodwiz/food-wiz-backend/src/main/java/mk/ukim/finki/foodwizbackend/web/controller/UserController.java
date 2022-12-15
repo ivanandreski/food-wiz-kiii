@@ -37,7 +37,7 @@ public class UserController {
         user.setLastName(registerCredentials.getEmail());
         user = userRepo.save(user);
         String token = jwtUtil.generateToken(user.getUsername());
-        return Collections.singletonMap("jwt-token", token);
+        return Collections.singletonMap("jwt_token", token);
     }
 
     @PostMapping("/login")
@@ -50,7 +50,7 @@ public class UserController {
 
             String token = jwtUtil.generateToken(body.getUsername());
 
-            return Collections.singletonMap("jwt-token", token);
+            return Collections.singletonMap("jwt_token", token);
         }catch (AuthenticationException authExc){
             throw new RuntimeException("Invalid Login Credentials");
         }

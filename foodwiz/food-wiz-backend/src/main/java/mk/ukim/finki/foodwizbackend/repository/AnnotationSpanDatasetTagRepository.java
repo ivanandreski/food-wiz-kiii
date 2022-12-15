@@ -1,6 +1,8 @@
 package mk.ukim.finki.foodwizbackend.repository;
 
+import mk.ukim.finki.foodwizbackend.domain.models.AnnotationSpan;
 import mk.ukim.finki.foodwizbackend.domain.models.AnnotationSpanDatasetTag;
+import mk.ukim.finki.foodwizbackend.domain.models.DatasetTag;
 import mk.ukim.finki.foodwizbackend.domain.models.Document;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -8,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AnnotationSpanDatasetTagRepository extends JpaRepository<AnnotationSpanDatasetTag, Long> {
@@ -24,4 +27,6 @@ public interface AnnotationSpanDatasetTagRepository extends JpaRepository<Annota
             nativeQuery = true
     )
     List<AnnotationSpanDatasetTag> getByDocumentAndDatasetAndSource(@Param("document_id") Long documentId);
+
+    Optional<AnnotationSpanDatasetTag> findByAnnotationSpanAndDatasetTag(AnnotationSpan annotationSpan, DatasetTag datasetTag);
 }

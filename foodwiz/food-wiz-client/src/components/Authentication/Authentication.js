@@ -6,7 +6,7 @@ import NotAuthenticated from "./NotAuthenticated";
 const Authentication = () => {
   const [authenticated, setAuthenticated] = useState(false);
   const [email, setEmail] = useState("");
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     AuthenticationService.setAuthToken(token);
@@ -23,13 +23,13 @@ const Authentication = () => {
   const handleLogin = (email, password) => {
     AuthenticationService.login(email, password)
       .then((response) => {
-        const { token } = response.data;
+        const { jwt_token } = response.data;
 
-        sessionStorage.setItem("token", token);
+        localStorage.setItem("token", jwt_token);
 
         setAuthenticated(true);
         setEmail(email);
-        AuthenticationService.setAuthToken(token);
+        AuthenticationService.setAuthToken(jwt_token);
       })
       .catch((error) => console.log(error));
   };
@@ -45,7 +45,7 @@ const Authentication = () => {
   };
 
   const handleLogout = () => {
-    sessionStorage.clear();
+    localStorage.clear();
     setAuthenticated(false);
     setEmail("");
   };

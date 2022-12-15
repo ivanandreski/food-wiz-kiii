@@ -41,7 +41,7 @@ public class DocumentServiceImpl implements DocumentService {
         DocumentResponseDto responseDto = new DocumentResponseDto();
 
         Document document = documentRepository.findById(id).orElseThrow(() -> new DocumentNotFoundException(id));
-        List<AnnotationSpanDatasetTag> tagsOriginal = annotationSpanDatasetTagRepository.getByDocumentAndDatasetAndSource(id);
+        List<AnnotationSpanDatasetTag> tagsOriginal = annotationSpanDatasetTagRepository.getByDocumentAndDatasetAndSource(id, datasets, sources);
         List<AnnotationSpanDatasetTagSpacyDto> tagsForConversion = tagsOriginal.stream()
                 .map(AnnotationSpanDatasetTagSpacyDto::new)
                 .toList();

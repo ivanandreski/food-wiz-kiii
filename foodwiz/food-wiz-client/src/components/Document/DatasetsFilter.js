@@ -23,6 +23,7 @@ const DatasetsFilter = ({
         str += key + ",";
       }
     });
+    if (str === "") str = "empty";
     setDatasetString(str);
     setCheckedDatasets(temp);
   };

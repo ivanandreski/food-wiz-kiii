@@ -24,7 +24,6 @@ const BasicPopover = ({
   };
 
   function getClass() {
-    // console.log(token);
     return token.tags.length > 0 ? " badge text-bg-success" : "";
   }
 
@@ -32,18 +31,6 @@ const BasicPopover = ({
   const id = open ? "simple-popover" : undefined;
 
   const handleAdd = (tagId) => {
-    // let formData = new FormData();
-    // formData.append("start", token.start);
-    // formData.append("text", token.text);
-    // formData.append("documentId", documentId);
-
-    // DatasetTagService.addTag(tagId, formData)
-    //   .then((response) => {
-    //     const temp = datasetString;
-    //     setDatasetString("");
-    //     setDatasetString(temp);
-    //   })
-    //   .catch((error) => console.log(error));
     if (localStorage.getItem("token") === null) {
       Swal.fire({
         icon: "error",
@@ -70,10 +57,6 @@ const BasicPopover = ({
   };
 
   const handleDelete = (tagId, it) => {
-    {
-      console.log(it);
-    }
-    return;
     if (localStorage.getItem("token") === null) {
       Swal.fire({
         icon: "error",
@@ -97,18 +80,6 @@ const BasicPopover = ({
         })
         .catch((error) => console.log(error));
     }
-    // let formData = new FormData();
-    // formData.append("start", token.start);
-    // formData.append("text", token.text);
-    // formData.append("documentId", documentId);
-
-    // DatasetTagService.markDelete(tagId, formData)
-    //   .then((response) => {
-    //     const temp = datasetString;
-    //     setDatasetString("");
-    //     setDatasetString(temp);
-    //   })
-    //   .catch((error) => console.log(error));
   };
 
   return (

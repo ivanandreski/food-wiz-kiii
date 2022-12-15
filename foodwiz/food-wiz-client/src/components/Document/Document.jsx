@@ -12,68 +12,65 @@ const Document = () => {
   const [document, setDocument] = useState({});
   const [tokens, setTokens] = useState([]);
   const [datasets, setDatasets] = useState([]);
-  const [datasetString, setDatasetString] = useState("empty");
+  const [datasetString, setDatasetString] = useState("");
   const [checkedDatasets, setCheckedDatasets] = useState({});
   const [datasetTags, setDatasetTags] = useState({});
   const [sources, setSources] = useState([]);
-  const [sourceString, setSourceString] = useState("empty");
+  const [sourceString, setSourceString] = useState("");
   const [checkedSources, setCheckedSources] = useState({});
 
   useEffect(() => {
-    fetchDocument();
+    const fetchDatasets = () => {
+      console.log("fetchDatasets");
+      DatasetService.fetchByCorpusId(id).then((resp) => {
+        setDatasets(resp.data.datasets);
+        let temp = {};
+        for (let i = 0; i < resp.data.datasets.length; i++) {
+          temp[resp.data.datasets[i].id] = true;
+        }
+
+        if (datasetString === "") {
+          setDatasetString(resp.data.datasetString);
+          setCheckedDatasets(temp);
+        }
+      });
+    };
+    const fetchSources = () => {
+      DocumentService.fetchSources().then((resp) => {
+        setSources(resp.data);
+        let temp = {};
+        let tempString = "";
+        for (let i = 0; i < resp.data.length; i++) {
+          temp[resp.data[i]] = true;
+          tempString += resp.data[i] + ",";
+        }
+        if (sourceString === "") {
+          setSourceString(tempString);
+          setCheckedSources(temp);
+        }
+      });
+    };
+
+    const fetchDatasetTags = () => {
+      DatasetTagService.fetchDatasetTags(datasetString)
+        .then((response) => {
+          setDatasetTags(response.data);
+        })
+        .catch((error) => console.log(error));
+    };
+    const fetchDocument = () => {
+      DocumentService.fetchDocument(id, datasetString, sourceString).then(
+        (resp) => {
+          setDocument(resp.data.document);
+          setTokens(JSON.parse(resp.data.tokens));
+        }
+      );
+    };
     fetchDatasets();
-    fetchDatasetTags();
     fetchSources();
-  }, [datasetString, sourceString]);
-
-  const fetchDocument = () => {
-    DocumentService.fetchDocument(id, datasetString, sourceString).then(
-      (resp) => {
-        setDocument(resp.data.document);
-        setTokens(JSON.parse(resp.data.tokens));
-      }
-    );
-  };
-
-  const fetchDatasets = () => {
-    DatasetService.fetchByCorpusId(id).then((resp) => {
-      setDatasets(resp.data.datasets);
-      let temp = {};
-      for (let i = 0; i < resp.data.datasets.length; i++) {
-        temp[resp.data.datasets[i].id] = true;
-      }
-
-      if (datasetString === "empty") {
-        setDatasetString(resp.data.datasetString);
-        setCheckedDatasets(temp);
-      }
-    });
-  };
-  const fetchSources = () => {
-    DocumentService.fetchSources().then((resp) => {
-      setSources(resp.data);
-      let temp = {};
-      let tempString = "";
-      for (let i = 0; i < resp.data.length; i++) {
-        temp[resp.data[i]] = true;
-        tempString += resp.data[i] + ",";
-      }
-      if (sourceString === "empty") {
-        setSourceString(tempString);
-        setCheckedSources(temp);
-      }
-    });
-  };
-
-  const fetchDatasetTags = () => {
-    console.log(datasetString);
-    DatasetTagService.fetchDatasetTags(datasetString)
-      .then((response) => {
-        setDatasetTags(response.data);
-        console.log(response.data);
-      })
-      .catch((error) => console.log(error));
-  };
+    fetchDatasetTags();
+    fetchDocument();
+  }, [datasetString, sourceString, id]);
 
   const tokenSpans = tokens?.map((t, ix) => (
     <BasicPopover

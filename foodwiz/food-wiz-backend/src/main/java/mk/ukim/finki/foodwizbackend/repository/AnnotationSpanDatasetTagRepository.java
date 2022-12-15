@@ -23,10 +23,12 @@ public interface AnnotationSpanDatasetTagRepository extends JpaRepository<Annota
             " from annotation_span_dataset_tags asdt" +
             " left join dataset_tags dt on dt.id = asdt.dataset_tag_id " +
             " left join annotation_spans as2 on as2.id = asdt.annotation_span_id " +
-            " where as2.document_id = :document_id ",
+            " where as2.document_id = :document_id " +
+            " and (:sources = '' or :sources like concat('%', asdt.source, '%') )" +
+            " and (:datasets = '' or :datasets like concat('%', dt.dataset_id , '%') )",
             nativeQuery = true
     )
-    List<AnnotationSpanDatasetTag> getByDocumentAndDatasetAndSource(@Param("document_id") Long documentId);
+    List<AnnotationSpanDatasetTag> getByDocumentAndDatasetAndSource(@Param("document_id") Long documentId, @Param("datasets") String datasets, @Param("sources") String sources);
 
     Optional<AnnotationSpanDatasetTag> findByAnnotationSpanAndDatasetTag(AnnotationSpan annotationSpan, DatasetTag datasetTag);
 }

@@ -21,6 +21,7 @@ const SourceFilter = ({
         str += key + ",";
       }
     });
+    if (str === "") str = "empty";
     setSourceString(str);
     setCheckedSources(temp);
   };

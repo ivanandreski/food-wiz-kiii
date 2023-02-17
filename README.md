@@ -4,7 +4,7 @@
 
 ## Intro
 
-This project is a fork of: (https://gitlab.com/ivan.andreski/food-base). It is used to learn about github workflows, uploading to DockerHub, creating Helm charts and uploading them tto github pages.
+This project is a fork of: https://gitlab.com/ivan.andreski/food-base. It is used to learn about github workflows, uploading to DockerHub, creating Helm charts and uploading them tto github pages.
 
 Update February 2023:
 The project is an old version of food-wiz. The current version of food-wiz on gitlab uses a refactored SpringBoot backend instead of Flask.
